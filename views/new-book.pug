@@ -1,7 +1,10 @@
 extends layout.pug 
 
 block content
-  h1 New Book 
+  h1 New Book
+
+  include error
+
   form(method='post')
     p
       label(for='title') Title 
@@ -19,4 +22,5 @@ block content
       input( type='submit'   value='Create New Book')
     p
       a(class='button' href='/') Cancel
+
 
