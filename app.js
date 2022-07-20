@@ -16,7 +16,8 @@ const Sequelize = require('sequelize');
 //Instatiate Sequelize
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: 'library.db'
+  storage: 'library.db',
+  logging: false
 });
 
 //async IIFE (Immediately Invoked Function Expression)
@@ -49,28 +50,28 @@ app.use('/users', usersRouter);
 
 //   ------------ ERROR HANDLERs --------
 /* 404 Error handler */
-// app.use((req, res, next) => {
-// 	const err  = new Error('Not Found');
-// 	err.status = 404;
-// 	// console.log('Error 404 - Not Found');
-// 	next(err);
-// 	// res.status(404).render('not-found');
-// });
+app.use((req, res, next) => {
+	const err  = new Error('Not Found');
+	err.status = 404;
+	// console.log('Error 404 - Not Found');
+	next(err);
+	// res.status(404).render('not-found');
+});
 
 /* Global error handler*/ 
-// app.use((err, req, res, next) => {	
-// 	if (err.status === 404) {
-// 		// err.status = 404;
-// 		err.message = 'Not Found';
-// 		console.log('Error 404 - Page Not Found (-ω-、)');
-// 		res.status(404).render('not-found', { err });
-// 	} else {
-// 		err.message = `Oops! something is wrong with the server`;
-// 		err.status = 500;
-// 		console.log('Error 500 - Something is wrong with the server 	(ﾉω･､)');
-// 		res.render('error', { err });
-// 		}
-// 	});
+app.use((err, req, res, next) => {	
+	if (err.status === 404) {
+		// err.status = 404;
+		err.message = 'Not Found';
+		console.log('Error 404 - Page Not Found (-ω-、)');
+		res.status(404).render('not-found', { err });
+	} else {
+		err.message = `Oops! something is wrong with the server`;
+		err.status = 500;
+		console.log('Error 500 - Something is wrong with the server 	(ﾉω･､)');
+		res.render('error', { err });
+		}
+	});
 
 
 

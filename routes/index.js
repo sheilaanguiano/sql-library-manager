@@ -3,7 +3,7 @@ const router = express.Router();
 const Book = require('../models').Book;  //data
 
 
-//---------Async/await middleware handler
+//---------Handler function to wrap each route
 function asyncHandler(callback){
   return async(req, res, next)=>{
 	try{
@@ -16,12 +16,38 @@ function asyncHandler(callback){
 
 
 
-// ---------- GET home page----------
-/* GET home page. */
+// ---------- GET '/' AND REDIRECT TO HOME page----------
 router.get('/', asyncHandler(async(req, res) => {
-  const books = await Book.findAll(); 
-  res.render('index', { books });
+  res.redirect('/books');
   }
 ));
 
-module.exports = router;
+// ---------- GET home page----------
+router.get('/books', asyncHandler(async(req, res) => {
+	const books = await Book.findAll(); 
+	res.render('index', { books });
+	}
+  ));
+
+
+// ---------- GET new book form page----------
+router.get('/books/new', asyncHandler(async(req, res) => {
+	res.render('new-book', { book:{} });
+	}
+  ));
+
+// ---------- POST new book page----------
+router.post('/books/new', asyncHandler(async(req, res) => {
+	let book;
+	try {
+		book = await Book.create(req.body);
+		res.redirect('/');
+	} catch (error) {
+		console.log(error);
+	}		
+}));
+
+
+
+
+module.exports = router; 
