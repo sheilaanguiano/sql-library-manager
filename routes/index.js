@@ -83,13 +83,11 @@ router.post("/books/:id", asyncHandler(async(req, res) => {
   }));  
 
    // ---------- POST DELETE book form----------
-router.post('/books/:id/delete', asyncHandler(async(req, res) => {
+   router.post('/books/:id/delete', asyncHandler(async(req, res) =>{
 	const book = await Book.findByPk(req.params.id);
-	if(book){
-		await book.destroy();
-		res.redirect('/books');
-	} 		
-}));  
+	await book.destroy();
+	res.redirect('/books');
+  }))  
 
  
 
