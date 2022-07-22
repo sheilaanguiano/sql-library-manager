@@ -5,8 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const routes = require('./routes/index');
+const book = require('./routes/book');
 
 
 var app = express();
@@ -45,25 +45,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-
-// app.use('/users', usersRouter);
+app.use('/', routes);
+app.use('/', book);
 
 //   ------------ ERROR HANDLERs --------
-/* 404 Error handler to catch undefined or non-existent route request */
+/* 404 Error handler to catch undefined or non-existent */
 app.use((req, res, next) => {
-	res.status(404).render('page-not-found');
+	res.status = 404;
+	next(err);
 });
 
 /* Global error handler*/ 
 app.use((err, req, res, next) => {	
 	if (err.status === 404) {
-		res.status(404).render('page-not-found');
+		res.status(404).render('page-not-found', { err });
 	} else {
-		err.status = 500;
-		err.message = `Oops! something is wrong with the server`;
+		res.status = 500;
 		console.log('Error 500 - Something is wrong with the server 	(ﾉω･､)');
-		res.render('page-error', { err });
+		res.render('page-error');
 		}
 	});
 
