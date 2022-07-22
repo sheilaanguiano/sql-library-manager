@@ -46,54 +46,30 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+// app.use('/users', usersRouter);
 
 //   ------------ ERROR HANDLERs --------
 /* 404 Error handler */
 app.use((req, res, next) => {
 	const err  = new Error('Not Found');
 	err.status = 404;
-	// console.log('Error 404 - Not Found');
 	next(err);
-	// res.status(404).render('not-found');
 });
 
 /* Global error handler*/ 
 app.use((err, req, res, next) => {	
 	if (err.status === 404) {
-		// err.status = 404;
 		err.message = 'Not Found';
 		console.log('Error 404 - Page Not Found (-ω-、)');
-		res.status(404).render('not-found', { err });
+		res.status(404).render('page-not-found', { err });
 	} else {
-		err.message = `Oops! something is wrong with the server`;
 		err.status = 500;
+		err.message = `Oops! something is wrong with the server`;
 		console.log('Error 500 - Something is wrong with the server 	(ﾉω･､)');
-		res.render('error', { err });
+		res.render('page-not-found', { err });
 		}
 	});
-
-
-
-
-
-
-
-// PROVIDED BY EXPRESS: catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
-
-// PROVIDED BY EXPRESS: error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
 
 
 app.listen(3000, () => {
