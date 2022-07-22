@@ -55,13 +55,15 @@ router.post('/books/new', asyncHandler(async(req, res) => {
 // ------ GET  (READ )book to UPDATE or DELETE form--------
 router.get('/books/:id', asyncHandler(async(req, res) => {
 	const book = await Book.findByPk(req.params.id);
-	if(book){
+	console.log(book);
+	if(book !== null){
 		res.render('update-book', { book })
 	} else {
 		const err = new Error();
 		err.status = 404;
-		next(err);
+		res.render('page-not-found', { err });
 	}
+
   }));
 
   // ---------- POST UPDATE book form----------

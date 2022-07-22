@@ -50,24 +50,20 @@ app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 
 //   ------------ ERROR HANDLERs --------
-/* 404 Error handler */
+/* 404 Error handler to catch undefined or non-existent route request */
 app.use((req, res, next) => {
-	const err  = new Error('Not Found');
-	err.status = 404;
-	next(err);
+	res.status(404).render('page-not-found');
 });
 
 /* Global error handler*/ 
 app.use((err, req, res, next) => {	
 	if (err.status === 404) {
-		err.message = 'Not Found';
-		console.log('Error 404 - Page Not Found (-ω-、)');
-		res.status(404).render('page-not-found', { err });
+		res.status(404).render('page-not-found');
 	} else {
 		err.status = 500;
 		err.message = `Oops! something is wrong with the server`;
 		console.log('Error 500 - Something is wrong with the server 	(ﾉω･､)');
-		res.render('page-not-found', { err });
+		res.render('page-error', { err });
 		}
 	});
 
