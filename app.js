@@ -60,9 +60,10 @@ app.use((err, req, res, next) => {
 	if (err.status === 404) {
 		res.status(404).render('page-not-found', { err });
 	} else {
-		res.status = 500;
+		err.status = 500;
+		err.message = 'Something is wrong with the server';
 		console.log('Error 500 - Something is wrong with the server 	(ﾉω･､)');
-		res.render('page-error');
+		res.render('page-error', {err} );
 		}
 	});
 
