@@ -33,4 +33,4 @@ And it handles 404 errors for any request that has a book not included in the da
 ![404 error](public/images/not-found.jpg)
 
 Finally, you can test `localhost:3000/500error` to test for the server side error
-![500 error](server-issue.jpg)
+![500 error](public/images/server-issue.jpg)
